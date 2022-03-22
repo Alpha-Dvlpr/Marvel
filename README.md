@@ -2,7 +2,7 @@ Se trata de una aplicación que utiliza la API de Marvel para ver un
 listado de superhéroes así como su descripción y todos los cómic, series, 
 eventos e historias en los que aparece.
 
-Se ha estructurado con el modelo MVC y se han desarrollado las interfaces 
+Se ha estructurado con el modelo MVVM y se han desarrollado las interfaces 
 por código enteramente ya que me resulta mucho más cómodo y rápido que por 
 storyboards.
 
