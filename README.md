@@ -1,7 +1,3 @@
-Este proyecto ha sido desarrollado enteramente por mí (Aarón Granado 
-Amores) como prueba técnica para el proceso de selección de Openbank a 
-través de Capgemini.
-
 Se trata de una aplicación que utiliza la API de Marvel para ver un 
 listado de superhéroes así como su descripción y todos los cómic, series, 
 eventos e historias en los que aparece.
