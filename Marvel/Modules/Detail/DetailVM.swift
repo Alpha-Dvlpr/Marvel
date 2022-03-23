@@ -10,24 +10,25 @@ import Foundation
 class DetailVM: VM {
     
     var observer: ((Error?) -> Void)?
-    var character: Hero?
-    var characterID: Int?
-//    private var globalDispatchGroup = DispatchGroup()
-//    private var globalError: ErrorModel?
+    var data: [Decodable]
     var netServices: Service?
     
+    var characterID: Int?
+    
+    var character: Hero? { return self.data.first as? Hero }
     var comics: [ElementData?]?
     var series: [ElementData?]?
     var stories: [ElementData?]?
     var events: [ElementData?]?
     
     init(characterID: Int, services: Service) {
+        self.data = []
         self.characterID = characterID
         self.netServices = services
     }
     
-    func getCharacterData() {
-        self.character = nil
+    func getData() {
+        self.data.removeAll()
         
         if let id = self.characterID {
             self.netServices?.getCharacterData(for: id) { [ weak self ] result in
@@ -35,9 +36,7 @@ class DetailVM: VM {
                 
                 switch result {
                 case .success(let hero):
-                    let character = hero.data.data.first
-                    
-                    wSelf.character = character
+                    wSelf.data = hero.data.data
                     wSelf.fetchData()
                     
                 case .failure(let error):
@@ -62,9 +61,11 @@ class DetailVM: VM {
             data.forEach { comic in
                 dispatchGroup.enter()
                 
-                self.fetchElement(for: comic.resourceURI) { [ weak self ] (data, error) in
+                self.getData(for: comic.resourceURI) { [ weak self ] (data, error) in
+                    guard let wSelf = self else { dispatchGroup.leave(); return }
+                    
                     comic.elementData = data
-                    self?.comics?.append(data)
+                    wSelf.comics?.append(data)
                     errors.append(error)
                     dispatchGroup.leave()
                 }
@@ -75,9 +76,11 @@ class DetailVM: VM {
             data.forEach { serie in
                 dispatchGroup.enter()
                 
-                self.fetchElement(for: serie.resourceURI) { [ weak self ] (data, error) in
+                self.getData(for: serie.resourceURI) { [ weak self ] (data, error) in
+                    guard let wSelf = self else { dispatchGroup.leave(); return }
+                    
                     serie.elementData = data
-                    self?.series?.append(data)
+                    wSelf.series?.append(data)
                     errors.append(error)
                     dispatchGroup.leave()
                 }
@@ -88,9 +91,11 @@ class DetailVM: VM {
             data.forEach { story in
                 dispatchGroup.enter()
                 
-                self.fetchElement(for: story.resourceURI) { [ weak self ] (data, error) in
+                self.getData(for: story.resourceURI) { [ weak self ] (data, error) in
+                    guard let wSelf = self else { dispatchGroup.leave(); return }
+                    
                     story.elementData = data
-                    self?.stories?.append(data)
+                    wSelf.stories?.append(data)
                     errors.append(error)
                     dispatchGroup.leave()
                 }
@@ -101,9 +106,11 @@ class DetailVM: VM {
             data.forEach { event in
                 dispatchGroup.enter()
                 
-                self.fetchElement(for: event.resourceURI) { [ weak self ] (data, error) in
+                self.getData(for: event.resourceURI) { [ weak self ] (data, error) in
+                    guard let wSelf = self else { dispatchGroup.leave(); return }
+                    
                     event.elementData = data
-                    self?.events?.append(data)
+                    wSelf.events?.append(data)
                     errors.append(error)
                     dispatchGroup.leave()
                 }
@@ -112,8 +119,8 @@ class DetailVM: VM {
    
         dispatchGroup.notify(queue: .main) { self.observer?(errors.compactMap { return $0 }.first) }
     }
-
-    func fetchElement(for url: String, completion: @escaping ((ElementData?, ErrorModel?) -> Void)) {
+    
+    func getData(for url: String, completion: @escaping ElementResponse) {
         self.netServices?.getElementData(for: url) { result in
             switch result {
             case .success(let resultData):
@@ -122,7 +129,6 @@ class DetailVM: VM {
                 } else {
                     completion(nil, ErrorModel("Could not get element data"))
                 }
-                
                 
             case .failure(let errorModel):
                 completion(nil, errorModel)

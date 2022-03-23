@@ -8,20 +8,25 @@
 class CharacterListVM: VM {
     
     var observer: ((Error?) -> Void)?
-    var characters: [Hero] = []
+    var data: [Decodable]
     var netServices: Service?
+    var currentPage: Int = 0
+    var pageSize: Int = 20
+    var offset: Int { return self.currentPage * self.pageSize }
     
-    init(service: Service) { self.netServices = service }
+    init(service: Service) {
+        self.data = []
+        self.netServices = service
+    }
     
-    func getCharacters() {
-        self.characters.removeAll()
-        
-        self.netServices?.getCharacterList { [ weak self ] result in
+    func getData() {
+        self.netServices?.getCharacterList(offset: self.offset) { [ weak self ] result in
             guard let wSelf = self else { return }
             
             switch result {
             case .success(let data):
-                wSelf.characters = data.data.data
+                wSelf.currentPage += 1
+                wSelf.data.append(contentsOf: data.data.data)
                 wSelf.observer?(nil)
                 
             case .failure(let error):
@@ -29,4 +34,6 @@ class CharacterListVM: VM {
             }
         }
     }
+    
+    func getData(for url: String, completion: @escaping ElementResponse) { completion(nil, nil) }
 }

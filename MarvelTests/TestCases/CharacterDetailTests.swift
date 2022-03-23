@@ -10,7 +10,7 @@ import XCTest
 
 class CharacterDetailTests: MarvelBaseTest {
 
-    var characterDetailVM: DetailVM?
+    var characterDetailVM: VM?
     var mockedDetailService: MockedNetService?
     var mockedDetailManager: MockedServiceManager?
     
@@ -27,21 +27,21 @@ class CharacterDetailTests: MarvelBaseTest {
 
     func testGetCharacterDataSuccess() {
         self.mockedDetailManager?.inflate(json: "character")
-        self.characterDetailVM?.getCharacterData()
+        self.characterDetailVM?.getData()
         
-        XCTAssertNotNil(self.characterDetailVM?.character)
+        XCTAssertNotNil(self.characterDetailVM?.data.first)
     }
     
     func testGetCharacterDataFailure() {
         self.mockedDetailManager?.inflate(json: "empty")
-        self.characterDetailVM?.getCharacterData()
+        self.characterDetailVM?.getData()
         
-        XCTAssertNil(self.characterDetailVM?.character)
+        XCTAssertNil(self.characterDetailVM?.data.first)
     }
     
     func testGetCharacterElementSuccess() {
         self.mockedDetailManager?.inflate(json: "story")
-        self.characterDetailVM?.fetchElement(for: "") { (story, error) in
+        self.characterDetailVM?.getData(for: "") { (story, error) in
             XCTAssertNotNil(story)
             XCTAssertNil(error)
         }
@@ -49,7 +49,7 @@ class CharacterDetailTests: MarvelBaseTest {
     
     func testGetCharacterElementFailure() {
         self.mockedDetailManager?.inflate(json: "empty")
-        self.characterDetailVM?.fetchElement(for: "") { (story, error) in
+        self.characterDetailVM?.getData(for: "") { (story, error) in
             XCTAssertNil(story)
             XCTAssertNotNil(error)
         }

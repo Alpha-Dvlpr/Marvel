@@ -11,8 +11,8 @@ class NetServices: Service {
     
     var manager: Manager!
     
-    func getCharacterList(completion: @escaping CharacterResponse) {
-        let model = CharacterListRequest()
+    func getCharacterList(offset: Int, completion: @escaping CharacterResponse) {
+        let model = CharacterListRequest(offset: offset)
         self.manager.sendRequest(request: model, completion: completion)
     }
     

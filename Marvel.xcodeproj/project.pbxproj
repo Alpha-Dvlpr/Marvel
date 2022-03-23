@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E409F7E027EB92A800B77037 /* BaseTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E409F7DF27EB92A800B77037 /* BaseTableView.swift */; };
 		E4680E9527E89A4A0058FAB8 /* WebImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4680E9427E89A4A0058FAB8 /* WebImageView.swift */; };
 		E4680E9727E89ADD0058FAB8 /* Disposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4680E9627E89ADD0058FAB8 /* Disposable.swift */; };
 		E4680E9A27E8A4C00058FAB8 /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4680E9927E8A4C00058FAB8 /* CustomNavBar.swift */; };
@@ -75,6 +76,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E409F7DF27EB92A800B77037 /* BaseTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableView.swift; sourceTree = "<group>"; };
 		E4680E9427E89A4A0058FAB8 /* WebImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebImageView.swift; sourceTree = "<group>"; };
 		E4680E9627E89ADD0058FAB8 /* Disposable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disposable.swift; sourceTree = "<group>"; };
 		E4680E9927E8A4C00058FAB8 /* CustomNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBar.swift; sourceTree = "<group>"; };
@@ -351,6 +353,7 @@
 				E4B1564827E4B8BF00A31EAC /* ViewBuilder.swift */,
 				E4680EB227E908140058FAB8 /* SocialManager.swift */,
 				E4680ECF27E918E20058FAB8 /* ViewModelProtocol.swift */,
+				E409F7DF27EB92A800B77037 /* BaseTableView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -497,6 +500,7 @@
 				E4B1565127E4BC3900A31EAC /* Navigator.swift in Sources */,
 				E4680E9A27E8A4C00058FAB8 /* CustomNavBar.swift in Sources */,
 				E4680E9F27E8ACA40058FAB8 /* DetailVC.swift in Sources */,
+				E409F7E027EB92A800B77037 /* BaseTableView.swift in Sources */,
 				E47DE07627E4DA8C00B6ED2F /* Authenticator.swift in Sources */,
 				E47DE07A27E4DD8100B6ED2F /* SecretsRetriever.swift in Sources */,
 				E4680EA127E8C88C0058FAB8 /* DetailVM.swift in Sources */,
@@ -559,7 +563,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FLYLZ94A58;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "alpha-dvlpr.MarvelTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -578,7 +582,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FLYLZ94A58;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "alpha-dvlpr.MarvelTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -10,7 +10,7 @@ import XCTest
 
 class CharacterListTests: MarvelBaseTest {
 
-    var characterListVM: CharacterListVM?
+    var characterListVM: VM?
     var mockedListService: MockedNetService?
     var mockedListManager: MockedServiceManager?
     
@@ -27,15 +27,15 @@ class CharacterListTests: MarvelBaseTest {
 
     func testGetListSuccess() {
         self.mockedListManager?.inflate(json: "characterList")
-        self.characterListVM?.getCharacters()
+        self.characterListVM?.getData()
         
-        XCTAssertEqual(self.characterListVM?.characters.count ?? 0, 3)
+        XCTAssertEqual(self.characterListVM?.data.count ?? 0, 3)
     }
     
     func testGetListFailure() {
         self.mockedListManager?.inflate(json: "empty")
-        self.characterListVM?.getCharacters()
+        self.characterListVM?.getData()
         
-        XCTAssertEqual(self.characterListVM?.characters.count ?? 0, 0)
+        XCTAssertTrue(self.characterListVM?.data.isEmpty ?? false)
     }
 }

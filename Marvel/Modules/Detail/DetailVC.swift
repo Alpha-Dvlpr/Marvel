@@ -168,7 +168,7 @@ class DetailVC: BaseVC {
         }
         
         self.startLoading()
-        self.viewModel?.getCharacterData()
+        self.viewModel?.getData()
     }
 }
 

@@ -18,6 +18,7 @@ class RequestModel: NSObject {
     var endpoint: String { return "" }
     var path: String { return "" }
     var parameters: [String: Any?] { return self.md5.authenticate(with: TimeInterval.current) ?? [:] }
+    var offset: Int { return 0 }
     var headers: [String: String] { return [:] }
     var method: RequestHTTPMethod { return body.isEmpty ? .get : .post }
     var body: [String: Any?] { return [:] }
@@ -28,7 +29,10 @@ class RequestModel: NSObject {
         var endpoint: String = self.endpoint.appending(self.path)
         var paramString = "?"
         
-        for parameter in self.parameters {
+        var newParams: [String: Any?] = self.parameters
+        newParams["offset"] = "\(self.offset)"
+        
+        for parameter in newParams {
             if let value = parameter.value as? String {
                 paramString.append("\(parameter.key)=\(value)&")
             }

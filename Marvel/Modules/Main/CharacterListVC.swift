@@ -17,8 +17,8 @@ struct CharacterListViews {
         return bar
     }()
     
-    private var characterList: UITableView = {
-        let table = UITableView()
+    private var characterList: BaseTableView = {
+        let table = BaseTableView()
         table.separatorStyle = .none
         table.backgroundColor = .clear
         
@@ -47,6 +47,10 @@ struct CharacterListViews {
     }
     
     func reload() { DispatchQueue.main.async { self.characterList.reloadData() } }
+    
+    func showTableLoader() { self.characterList.showLoader() }
+    
+    func hideTableLoader() { self.characterList.hideLoader() }
 }
 
 class CharacterListVC: BaseVC {
@@ -69,7 +73,7 @@ class CharacterListVC: BaseVC {
     func configure() {
         func fetch() {
             self.startLoading()
-            self.viewModel?.getCharacters()
+            self.viewModel?.getData()
         }
         
         self.views?.set(self, self)
@@ -78,6 +82,7 @@ class CharacterListVC: BaseVC {
             
             wSelf.stopLoading()
             wSelf.views?.reload()
+            wSelf.views?.hideTableLoader()
             
             if let error = error { wSelf.showAlert(for: error) { fetch() } }
         }
@@ -89,7 +94,7 @@ class CharacterListVC: BaseVC {
 extension CharacterListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewModel?.characters.count ?? 0
+        return self.viewModel?.data.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -97,7 +102,7 @@ extension CharacterListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let character = self.viewModel?.characters[indexPath.row] {
+        if let character = self.viewModel?.data[indexPath.row] as? Hero {
             return CharacterCell.create(with: character)
         } else {
             let cell = UITableViewCell()
@@ -115,5 +120,15 @@ extension CharacterListVC: UITableViewDelegate, UITableViewDataSource {
         else { return }
         
         Navigator.navigate(to: .characterDetail(characterID: id))
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let lastSection = tableView.numberOfSections - 1
+        let lastRow = tableView.numberOfRows(inSection: lastSection) - 1
+        
+        if indexPath.section == lastSection && indexPath.row == lastRow {
+            self.views?.showTableLoader()
+            self.viewModel?.getData()
+        }
     }
 }

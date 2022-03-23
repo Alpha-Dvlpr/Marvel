@@ -20,13 +20,17 @@ enum Images {
         switch self {
         case .chevronForward: return UIImage(systemName: "chevron.forward.circle.fill")
         case .chevronBackwards: return UIImage(systemName: "chevron.backward.circle.fill")
-        case .share: return UIImage(systemName: "square.and.arrow.up.circle.fill")
+        case .share:
+            if #available(iOS 15, *) { return UIImage(systemName: "square.and.arrow.up.circle.fill") }
+            return UIImage(systemName: "square.and.arrow.up")
         case .comic: return UIImage(systemName: "book.circle")
-        case .series: return UIImage(systemName: "film.circle")
-        case .stories: return UIImage(systemName: "circle.dotted")
+        case .series:
+            if #available (iOS 15, *) { return UIImage(systemName: "film.circle") }
+            return UIImage(systemName: "film")
+        case .stories:
+            if #available (iOS 15, *) { return UIImage(systemName: "circle.dotted") }
+            return UIImage(systemName: "circle.dashed")
         case .events: return UIImage(systemName: "calendar.circle")
-            
-            
         }
     }
 }

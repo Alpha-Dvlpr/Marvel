@@ -14,7 +14,7 @@ protocol Service {
     
     var manager: Manager! { get set }
     
-    func getCharacterList(completion: @escaping CharacterResponse)
+    func getCharacterList(offset: Int, completion: @escaping CharacterResponse)
     func getCharacterData(for character: Int, completion: @escaping CharacterResponse)
     func getElementData(for comicURL: String, completion: @escaping ElementDataResponse)
 }
